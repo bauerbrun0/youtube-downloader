@@ -1,0 +1,17 @@
+{
+	"name": "youtube-downloader",
+	"scripts": {
+		"start": "dotenv -e .env.production -- pnpm --stream -r start",
+		"build": "dotenv -e .env.production -- pnpm --stream -r build",
+		"dev": "dotenv -e .env.development -- pnpm --stream -r dev",
+		"lint": "pnpm --stream -r lint"
+	},
+	"dependencies": {
+		"dotenv-cli": "^7.3.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.54.0",
+		"@typescript-eslint/parser": "^6.12.0",
+    	"@local/eslint-config": "workspace:*"
+	}
+}

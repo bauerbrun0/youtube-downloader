@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+    ytdl-postgres:
+        container_name: ytdl-postgres
+        hostname: ytdl-postgres
+        image: postgres:latest
+        volumes:
+            - ytdl_postgres_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+            - TZ=${TZ}
+        ports:
+            - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+        networks:
+            - ytdl-network
+        command: -p ${POSTGRES_PORT}
+
+    elysia-api:
+        container_name: elysia-api
+        hostname: elysia-api
+        build:
+            context: .
+            dockerfile: ./apps/elysia-api/Dockerfile
+        image: elysia-api
+        environment:
+            - MODE=${MODE}
+            - ELYSIA_PORT=${ELYSIA_PORT}
+            - POSTGRES_PORT=${POSTGRES_PORT}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_HOST=${POSTGRES_HOST}
+            - TZ=${TZ}
+        ports:
+            - "${ELYSIA_PORT}:${ELYSIA_PORT}"
+        networks:
+            - ytdl-network
+
+networks:
+    ytdl-network:
+        driver: bridge
+
+volumes:
+    ytdl_postgres_data:

@@ -1,0 +1,18 @@
+{
+	"name": "elysia-api",
+	"scripts": {
+		"start": "bun run src/index.ts",
+		"dev": "bun run --watch src/index.ts",
+		"lint": "pnpm exec -- eslint ."
+	},
+	"devDependencies": {
+		"bun-types": "1",
+		"typescript": "5"
+	},
+	"dependencies": {
+		"@elysiajs/static": "^0.7.1",
+		"@sinclair/typebox": "^0.31.28",
+		"elysia": "0.7",
+		"types": "workspace:*"
+	}
+}

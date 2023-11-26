@@ -1,0 +1,7 @@
+.env.development
+.env.production
+
+node_modules
+
+solid-build
+dist

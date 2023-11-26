@@ -1,0 +1,15 @@
+{
+	"name": "types",
+	"version": "0.0.1",
+	"main": "index.ts",
+	"types": "index.ts",
+	"scripts": {
+		"lint": "pnpm exec -- eslint ."
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"@sinclair/typebox": "^0.31.28"
+	}
+}

@@ -1,0 +1,6 @@
+node_modules
+
+apps/elysia-api/node_modules
+apps/solid-app/node_modules
+
+packages/types/node_modules

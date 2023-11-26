@@ -1,0 +1,19 @@
+{
+	"overrides": [
+		{
+			"files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+			"parser": "@typescript-eslint/parser",
+			"extends": ["eslint:recommended"],
+			"rules": {
+				"semi": ["error", "always"],
+				"indent": ["error", "tab"],
+				"keyword-spacing": ["error", {
+					"before": true,
+					"after": true
+				}],
+				"block-spacing": ["error", "always"],
+				"space-before-blocks": ["error", "always"]
+			}
+		}
+	]
+}
