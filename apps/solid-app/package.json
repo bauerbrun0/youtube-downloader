@@ -7,9 +7,8 @@
     "lint": "bun exec -- eslint ."
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.31.28",
     "solid-js": "^1.8.5",
-	"types": "workspace:*"
+    "types": "workspace:*"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",

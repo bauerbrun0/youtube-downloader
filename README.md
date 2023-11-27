@@ -10,6 +10,8 @@ This monorepo houses the components of a YouTube Downloader application, includi
 - [Bun](https://bun.sh/)
 - [pnpm](https://pnpm.io/)
 - [Node.js](https://nodejs.org/en/)
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation)
+- [python](https://www.python.org/downloads/)
 
 ### Getting Started
 1. Clone the repository
