@@ -5,3 +5,5 @@ node_modules
 
 solid-build
 dist
+
+apps/elysia-api/requests

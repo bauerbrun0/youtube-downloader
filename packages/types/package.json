@@ -10,6 +10,6 @@
 		"typescript": "^5.0.0"
 	},
 	"dependencies": {
-		"@sinclair/typebox": "^0.31.28"
+		"zod": "^3.22.4"
 	}
 }
