@@ -1,35 +1,115 @@
-import { create } from 'youtube-dl-exec';
-import { baseYouTubeRespone, playlistInfo, PlaylistInfo, videoInfo, VideoInfo } from 'types';
-import ytdlpConfig from '../configs/ytdlp.config';
+import { PlaylistInfo, VideoInfo } from 'types';
+import YTDLP from '../utils/ytdlp';
+import { BadRequestError } from '../utils/errors';
 
-const ytdl = create(ytdlpConfig.binaryPath);
+const ytdlp = new YTDLP();
 
-async function getInfo (url: string): Promise<VideoInfo | PlaylistInfo> {
-	try {
-		const json: unknown = await ytdl(url, {
-			dumpSingleJson: true,
-			flatPlaylist: true,
-		});
+async function getVideoInfo (url: string): Promise<VideoInfo> {
+	const ytdlpResult = await ytdlp.getInfo(url);
 
-		const { _type } = baseYouTubeRespone.parse(json);
-
-		return _type === "video" ? videoInfo.parse(json) : playlistInfo.parse(json);
-	} catch (e) {
-		if (e instanceof Error) {
-			if (e.message.includes("Video unavailable")) {
-				throw new Error("Video not found");
-			}
-
-			if (e.message.includes("playlist does not exist")) {
-				throw new Error("Playlist not found");
-			}
-		}
-		throw new Error("Could not get info from YouTube");
+	if (ytdlpResult._type !== "video") {
+		throw new BadRequestError("Requested URL does not point to a video");
 	}
+
+	const formats = ytdlpResult.formats?.map((format) => ({
+		formatId: format.format_id,
+		format: format.format,
+		fileSize: format.filesize,
+		formatNote: format.format_note,
+		fps: format.fps,
+		resolution: format.resolution,
+		tbr: format.tbr,
+		vbr: format.vbr,
+		extension: format.ext,
+		videoCodec: format.vcodec,
+		audioCodec: format.acodec,
+		abr: format.abr,
+		container: format.container,
+		width: format.width,
+		height: format.height
+	}));
+
+	return {
+		id: ytdlpResult.id,
+		url: ytdlpResult.webpage_url,
+		title: ytdlpResult.title,
+		type: ytdlpResult._type,
+		formats: formats || []
+	};
 }
 
-const ytdlpService = {
-	getInfo,
-};
+async function getPlaylistInfo (url: string): Promise<PlaylistInfo> {
+	const ytdlpResult = await ytdlp.getInfo(url);
 
-export default ytdlpService;
+	if (ytdlpResult._type !== "playlist") {
+		throw new BadRequestError("Requested URL does not point to a playlist");
+	}
+
+	const entries = ytdlpResult.entries?.map((entry) => ({
+		id: entry.id,
+		url: entry.url,
+		title: entry.title
+	}));
+
+	return {
+		id: ytdlpResult.id,
+		url: ytdlpResult.webpage_url,
+		title: ytdlpResult.title,
+		type: ytdlpResult._type,
+		entries: entries || []
+	};
+}
+
+async function getInfo (url: string): Promise<VideoInfo | PlaylistInfo> {
+	const json = await ytdlp.getInfo(url);
+
+	const entries = json.entries?.map((entry) => ({
+		id: entry.id,
+		url: entry.url,
+		title: entry.title
+	}));
+
+	const formats = json.formats?.map((format) => ({
+		formatId: format.format_id,
+		format: format.format,
+		fileSize: format.filesize,
+		formatNote: format.format_note,
+		fps: format.fps,
+		resolution: format.resolution,
+		tbr: format.tbr,
+		vbr: format.vbr,
+		extension: format.ext,
+		videoCodec: format.vcodec,
+		audioCodec: format.acodec,
+		abr: format.abr,
+		container: format.container,
+		width: format.width,
+		height: format.height
+	}));
+
+	const baseResult = {
+		id: json.id,
+		url: json.webpage_url,
+		title: json.title,
+	};
+
+	if (json._type === "video") {
+		return {
+			...baseResult,
+			type: json._type,
+			formats: formats || []
+		};
+	}
+
+	return {
+		...baseResult,
+		type: json._type,
+		entries: entries || []
+	};
+}
+
+export default {
+	getInfo,
+	getVideoInfo,
+	getPlaylistInfo
+};
