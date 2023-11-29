@@ -1,6 +1,6 @@
 import { describe, test, expect } from "bun:test";
 import { dontThrow } from "../test";
-import { NotFoundError } from "../errors";
+import { BadRequestError, NotFoundError } from "../errors";
 import YTDLP from ".";
 
 const ytdlp = new YTDLP();
@@ -160,7 +160,7 @@ describe("ytdlp", () => {
 		test("should get proper error when specifying a non-existent YouTube path", async () => {
 			const { stderr } = await ytdlp._getInfo("https://www.youtube.com/not-a-path");
 			expect(stderr).toBeDefined();
-			expect(stderr).toContain("not-a-path");
+			expect(stderr).toContain("HTTP Error 404: Not Found");
 		});
 	});
 
@@ -201,7 +201,7 @@ describe("ytdlp", () => {
 			expect(error).toBeInstanceOf(NotFoundError);
 		});
 
-		test("should throw custom NotFoundError when getting info from non-existent YouTube path", async () => {
+		test("should throw custom BadRequestError when getting info from non-existent YouTube path", async () => {
 			let error;
 
 			try {
@@ -211,7 +211,7 @@ describe("ytdlp", () => {
 			}
 
 			expect(error).toBeDefined();
-			expect(error).toBeInstanceOf(NotFoundError);
+			expect(error).toBeInstanceOf(BadRequestError);
 		});
 	});
 });

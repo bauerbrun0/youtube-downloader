@@ -1,7 +1,7 @@
 import ytdlpConfig from "../../configs/ytdlp.config";
 import { Value } from "@sinclair/typebox/value";
 import { ytdlpResult, YTDLPResult } from "./types";
-import { InternalError, NotFoundError } from "../errors";
+import { BadRequestError, InternalError, NotFoundError } from "../errors";
 
 export default class YTDLP {
 	binaryPath: string;
@@ -31,10 +31,13 @@ export default class YTDLP {
 		
 		if (stderr && (
 			stderr.includes("Video unavailable") ||
-			stderr.includes("playlist does not exist") ||
-			stderr.includes("not-a-path")
+			stderr.includes("playlist does not exist")
 		)) {
 			throw new NotFoundError("The requested video or playlist was not found");
+		}
+
+		if (stderr && stderr.includes("HTTP Error 404: Not Found")) {
+			throw new BadRequestError("Invalid request URL");
 		}
 
 		if (stderr) {
