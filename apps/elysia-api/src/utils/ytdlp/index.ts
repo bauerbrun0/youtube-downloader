@@ -10,18 +10,30 @@ export default class YTDLP {
 		this.binaryPath = ytdlpConfig.binaryPath;
 	}
 
-	public async getInfo(url: string): Promise<YTDLPResult> {
-		const proc = Bun.spawn([
-			this.binaryPath, url, "--dump-single-json", "--flat-playlist"
+	public async _getInfo(url: string): Promise<{ stdout: any, stderr: string }> {
+		const proc = Bun.spawn([ this.binaryPath, url,
+			"--dump-single-json",
+			"--flat-playlist",
+			"--no-warnings",
 		], {
 			stdout: "pipe",
 			stderr: "pipe"
 		});
-		
-		const stdout: unknown = await Bun.readableStreamToJSON(proc.stdout);
+
+		const stdout = await Bun.readableStreamToJSON(proc.stdout);
 		const stderr = await Bun.readableStreamToText(proc.stderr);
+
+		return { stdout, stderr };
+	}
+
+	public async getInfo(url: string): Promise<YTDLPResult> {
+		const { stdout, stderr } = await this._getInfo(url);
 		
-		if (stderr && (stderr.includes("Video unavailable") || stderr.includes("playlist does not exist"))) {
+		if (stderr && (
+			stderr.includes("Video unavailable") ||
+			stderr.includes("playlist does not exist") ||
+			stderr.includes("not-a-path")
+		)) {
 			throw new NotFoundError("The requested video or playlist was not found");
 		}
 
