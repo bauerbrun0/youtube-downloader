@@ -4,6 +4,7 @@
 		"start": "dotenv -e .env.production -- pnpm --stream -r start",
 		"build": "dotenv -e .env.production -- pnpm --stream -r build",
 		"dev": "dotenv -e .env.development -- pnpm --stream -r dev",
+		"test": "dotenv -e .env.development --- pnpm --stream -r test",
 		"lint": "pnpm --stream -r lint"
 	},
 	"dependencies": {

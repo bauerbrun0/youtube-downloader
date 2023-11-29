@@ -3,7 +3,8 @@
 	"scripts": {
 		"start": "bun run src/index.ts",
 		"dev": "bun run --watch src/index.ts",
-		"lint": "pnpm exec -- eslint ."
+		"lint": "pnpm exec -- eslint .",
+		"test": "bun test"
 	},
 	"devDependencies": {
 		"bun-types": "1",
