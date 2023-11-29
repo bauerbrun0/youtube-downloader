@@ -1,7 +1,8 @@
 {
 	"globals": {
 		"Bun": true,
-		"console": true
+		"console": true,
+		"Response": true
 	},
 	"extends": ["@local/eslint-config/common.json"],
 	"ignorePatterns": ["public/"]
