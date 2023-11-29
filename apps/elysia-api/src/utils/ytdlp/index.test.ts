@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, test, expect } from "bun:test";
 import { dontThrow } from "../test";
 import { NotFoundError } from "../errors";
 import YTDLP from ".";

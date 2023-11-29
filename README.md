@@ -1,4 +1,4 @@
-# YouTube Downloader Monorepo 🎬🎶
+# YouTube Downloader 🎬🎶
 
 This monorepo houses the components of a YouTube Downloader application, including the API, frontend, and database.
 
