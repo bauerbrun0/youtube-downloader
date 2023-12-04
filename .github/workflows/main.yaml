@@ -1,0 +1,90 @@
+name: Main workflow
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+        types: [opened, synchronize]
+
+jobs:
+    main:
+        name: Main job
+        runs-on: ubuntu-20.04
+        env:
+            CI_PUBLISH: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip-publish') }}
+            MODE: production
+            PORT: 4321
+            VITE_API_URL: http://localhost:4321
+            YT_DLP_BIN_PATH: /usr/bin/yt-dlp
+        steps:
+            - 
+                name: Install Node
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 'lts/Hydrogen'
+            - 
+                name: Install bun
+                uses: oven-sh/setup-bun@v1
+                with:
+                    bun-version: latest
+            -
+                name: Install pnpm
+                uses: pnpm/action-setup@v2
+                with:
+                    version: 8
+            -
+                name: Install Python
+                uses: actions/setup-python@v4
+                with:
+                    python-version: '3.11'
+            -
+                name: Install yt-dlp
+                run: curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp && chmod a+rx /usr/bin/yt-dlp
+            - 
+                name: Git checkout
+                uses: actions/checkout@v4
+            -
+                name: Install dependencies
+                run: pnpm install
+            -
+                name: Lint
+                run: pnpm run lint
+            -
+                name: Build
+                run: pnpm run build
+            -
+                name: Test
+                run: pnpm run test
+            -
+                name: Bump version
+                id: bump_version
+                if: ${{ env.CI_PUBLISH == 'true' }}
+                uses: anothrNick/github-tag-action@1.67.0
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    DEFAULT_BUMP: patch
+                    WITH_V: true
+            -
+                name: Set up QEMU
+                if: ${{ env.CI_PUBLISH == 'true' }}
+                uses: docker/setup-qemu-action@v3
+            -
+                name: Set up Docker Buildx
+                if: ${{ env.CI_PUBLISH == 'true' }}
+                uses: docker/setup-buildx-action@v3
+            -
+                name: Login to DockerHub
+                if: ${{ env.CI_PUBLISH == 'true' }}
+                uses: docker/login-action@v3
+                with:
+                    username: ${{ secrets.DOCKERHUB_USERNAME }}
+                    password: ${{ secrets.DOCKERHUB_TOKEN }}
+            -
+                name: Build and push image to DockerHub
+                if: ${{ env.CI_PUBLISH == 'true' }}
+                uses: docker/build-push-action@v5
+                with:
+                    push: true
+                    platforms: linux/amd64,linux/arm64
+                    tags: bauerbrun0/youtube-downloader:${{ steps.bump_version.outputs.new_tag }},bauerbrun0/youtube-downloader:latest

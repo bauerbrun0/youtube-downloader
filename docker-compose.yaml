@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+    youtube-downloader:
+        container_name: youtube-downloader
+        image: youtube-downloader # bauerbrun0/youtube-downloader for the public image
+        environment:
+            - PORT=2233
+            - VITE_API_URL=http://localhost:2233
+        ports:
+            - "2233:2233"

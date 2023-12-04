@@ -1,6 +1,12 @@
 node_modules
+Dockerfile
+.github
 
 apps/elysia-api/node_modules
+apps/elysia-api/requests
+apps/elysia-api/solid-build
+
 apps/solid-app/node_modules
+apps/solid-app/dist
 
 packages/types/node_modules
