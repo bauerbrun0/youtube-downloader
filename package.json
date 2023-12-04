@@ -4,8 +4,9 @@
 		"start": "dotenv -e .env.production -- pnpm --stream -r start",
 		"build": "dotenv -e .env.production -- pnpm --stream -r build",
 		"dev": "dotenv -e .env.development -- pnpm --stream -r dev",
-		"test": "dotenv -e .env.development --- pnpm --stream -r test",
-		"lint": "pnpm --stream -r lint"
+		"test": "dotenv -e .env.development -- pnpm --stream -r test",
+		"lint": "pnpm --stream -r lint",
+		"subenv": "dotenv -e .env.production -- pnpm --stream -r subenv"
 	},
 	"dependencies": {
 		"dotenv-cli": "^7.3.0"

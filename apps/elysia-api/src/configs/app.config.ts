@@ -1,4 +1,4 @@
-const port = Bun.env.ELYSIA_PORT ?? 8080;
+const port = Bun.env.PORT ?? 8080;
 const mode = Bun.env.MODE ?? "development";
 
 if (typeof port === "string" && isNaN(parseInt(port))) {

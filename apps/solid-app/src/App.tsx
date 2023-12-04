@@ -2,8 +2,8 @@
 
 function App() {
 	return (
-		<div class="text-red-600">
-			YouTube Downloader
+		<div class="text-sky-800">
+			VITE_API_URL: {import.meta.env.VITE_API_URL}
 		</div>
 	);
 }
