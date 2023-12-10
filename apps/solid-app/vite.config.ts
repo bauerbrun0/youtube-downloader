@@ -5,10 +5,11 @@ import runtimeEnv from "vite-plugin-runtime-env";
 export default defineConfig({
 	plugins: [
 		solid(),
-		runtimeEnv()
+		runtimeEnv(),
 	],
 	build: {
 		outDir: './dist',
 		emptyOutDir: true,
+		target: 'esnext',
 	}
 });

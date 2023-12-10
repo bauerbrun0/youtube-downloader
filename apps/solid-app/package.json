@@ -1,13 +1,15 @@
 {
   "name": "solid-app",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "pnpm run subenv && vite preview",
     "lint": "pnpm exec -- eslint .",
     "subenv": "cp dist/index.html dist/index.html.template && envsubst < dist/index.html.template > dist/index.html"
   },
   "dependencies": {
+    "@solid-primitives/i18n": "^2.0.0",
+    "@solidjs/router": "^0.10.1",
     "solid-js": "^1.8.5",
     "types": "workspace:*"
   },
@@ -19,6 +21,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vite-plugin-runtime-env": "^0.1.1",
-    "vite-plugin-solid": "^2.7.2"
+    "vite-plugin-solid": "^2.7.2",
+    "vite-plugin-solid-svg": "^0.7.0"
   }
 }
