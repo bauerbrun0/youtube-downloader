@@ -24,6 +24,9 @@ importers:
 
   apps/elysia-api:
     dependencies:
+      '@elysiajs/cors':
+        specifier: ^0.7.2
+        version: 0.7.2(elysia@0.7.29)
       '@elysiajs/static':
         specifier: ^0.7.1
         version: 0.7.1(elysia@0.7.29)
@@ -465,6 +468,14 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
     dev: true
+
+  /@elysiajs/cors@0.7.2(elysia@0.7.29):
+    resolution: {integrity: sha512-H5JCDv2rtf1N89ry6VYTNNIOvUspWDgALRyP0aodWuMzMFvqeTJ3y1dUmL+O9cB59WDX3Nr6oJMl527W7f8gdg==}
+    peerDependencies:
+      elysia: '>= 0.7.0'
+    dependencies:
+      elysia: 0.7.29(@sinclair/typebox@0.31.28)(typescript@5.3.2)
+    dev: false
 
   /@elysiajs/static@0.7.1(elysia@0.7.29):
     resolution: {integrity: sha512-cplVWo3fpHK+Iqatdel0ldoZPZYzxFX9i1pk+QyX45AoEFTAVX7EpGrWcK4PXufudg0GDQD7q2RM5kI/STwroQ==}

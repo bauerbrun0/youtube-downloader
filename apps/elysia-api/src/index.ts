@@ -3,6 +3,7 @@ import { staticPlugin } from '@elysiajs/static';
 import swagger from '@elysiajs/swagger';
 import appConfig from './configs/app.config';
 import app from './app';
+import { cors } from '@elysiajs/cors';
 
 if (appConfig.mode === "production") {
 	new Elysia()
@@ -15,6 +16,7 @@ if (appConfig.mode === "production") {
 		.listen(appConfig.port);
 } else {
 	new Elysia()
+		.use(cors())
 		.use(swagger({
 			documentation: {
 				info: {
