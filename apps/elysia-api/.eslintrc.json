@@ -3,7 +3,7 @@
 		"Bun": true,
 		"console": true,
 		"Response": true,
-		"Request": true
+		"URL": true
 	},
 	"extends": ["@local/eslint-config/common.json"],
 	"ignorePatterns": ["public/"]

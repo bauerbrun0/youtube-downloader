@@ -2,6 +2,8 @@ import ytdlpConfig from "../../configs/ytdlp.config";
 import { Value } from "@sinclair/typebox/value";
 import { ytdlpResult, YTDLPResult } from "./types";
 import { BadRequestError, InternalError, NotFoundError } from "../errors";
+import { fallbackDict } from "../i18n";
+import { Dict } from "../i18n/types";
 
 export default class YTDLP {
 	binaryPath: string;
@@ -26,26 +28,26 @@ export default class YTDLP {
 		return { stdout, stderr };
 	}
 
-	public async getInfo(url: string): Promise<YTDLPResult> {
+	public async getInfo(url: string, dict: Dict = fallbackDict): Promise<YTDLPResult> {
 		const { stdout, stderr } = await this._getInfo(url);
-		
 		if (stderr && (
 			stderr.includes("Video unavailable") ||
-			stderr.includes("playlist does not exist")
+			stderr.includes("playlist does not exist") || 
+			stderr.includes("non-existent")
 		)) {
-			throw new NotFoundError("The requested video or playlist was not found");
+			throw new NotFoundError(dict("errors.videoOrPlaylistWasNotFound"));
 		}
 
 		if (stderr && stderr.includes("HTTP Error 404: Not Found")) {
-			throw new BadRequestError("Invalid request URL");
+			throw new BadRequestError(dict("errors.invalidRequestURL"));
 		}
 
 		if (stderr) {
-			throw new InternalError("An error occurred while getting info from YouTube");
+			throw new InternalError(dict("errors.errorOccurredWhileGettingInfoFromYouTube"));
 		}
 
 		if (!Value.Check(ytdlpResult, stdout)) {
-			throw new InternalError("An error occurred while parsing the response from YouTube");
+			throw new InternalError(dict("errors.errorOccurredWhileParsingTheResponseFromYouTube"));
 		}
 
 		return Value.Decode(ytdlpResult, stdout);

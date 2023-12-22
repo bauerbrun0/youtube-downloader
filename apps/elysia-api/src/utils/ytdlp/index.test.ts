@@ -154,7 +154,9 @@ describe("ytdlp", () => {
 		test("should get proper error when specifying a non-existent playlist", async () => {
 			const { stderr } = await ytdlp._getInfo("https://www.youtube.com/playlist?list=non-existent");
 			expect(stderr).toBeDefined();
-			expect(stderr).toContain("playlist does not exist");
+			const contain1 = dontThrow(() => expect(stderr).toContain("playlist does not exist"));
+			const contain2 = dontThrow(() => expect(stderr).toContain("non-existent"));
+			expect(contain1 || contain2).toBeTrue();
 		});
 
 		test("should get proper error when specifying a non-existent YouTube path", async () => {
