@@ -1,14 +1,15 @@
 import { PlaylistInfo, VideoInfo } from 'types';
 import YTDLP from '../utils/ytdlp';
 import { BadRequestError } from '../utils/errors';
+import { Dict } from "../utils/i18n/types";
 
 const ytdlp = new YTDLP();
 
-async function getVideoInfo (url: string): Promise<VideoInfo> {
-	const ytdlpResult = await ytdlp.getInfo(url);
+async function getVideoInfo (url: string, dict: Dict): Promise<VideoInfo> {
+	const ytdlpResult = await ytdlp.getInfo(url, dict);
 
 	if (ytdlpResult._type !== "video") {
-		throw new BadRequestError("Requested URL does not point to a video");
+		throw new BadRequestError(dict("errors.urlDoesNotPointToAVideo"));
 	}
 
 	const formats = ytdlpResult.formats?.map((format) => ({
@@ -38,11 +39,11 @@ async function getVideoInfo (url: string): Promise<VideoInfo> {
 	};
 }
 
-async function getPlaylistInfo (url: string): Promise<PlaylistInfo> {
-	const ytdlpResult = await ytdlp.getInfo(url);
+async function getPlaylistInfo (url: string, dict: Dict): Promise<PlaylistInfo> {
+	const ytdlpResult = await ytdlp.getInfo(url, dict);
 
 	if (ytdlpResult._type !== "playlist") {
-		throw new BadRequestError("Requested URL does not point to a playlist");
+		throw new BadRequestError(dict("errors.urlDoesNotPointToAPlaylist"));
 	}
 
 	const entries = ytdlpResult.entries?.map((entry) => ({
@@ -60,8 +61,8 @@ async function getPlaylistInfo (url: string): Promise<PlaylistInfo> {
 	};
 }
 
-async function getInfo (url: string): Promise<VideoInfo | PlaylistInfo> {
-	const json = await ytdlp.getInfo(url);
+async function getInfo (url: string, dict: Dict): Promise<VideoInfo | PlaylistInfo> {
+	const json = await ytdlp.getInfo(url, dict);
 
 	const entries = json.entries?.map((entry) => ({
 		id: entry.id,
