@@ -1,4 +1,5 @@
 import { Type, Static } from "@sinclair/typebox";
+export { Value } from "@sinclair/typebox/value";
 
 export const baseInfo = Type.Object({
 	id: Type.String(),
@@ -8,6 +9,8 @@ export const baseInfo = Type.Object({
 		Type.Literal("video"),
 		Type.Literal("playlist"),
 	]),
+	channel: Type.String(),
+	thumbnail: Type.String()
 });
 
 export type BaseInfo = Static<typeof baseInfo>;
@@ -34,7 +37,9 @@ export type Format = Static<typeof format>;
 
 export const videoInfo = Type.Composite([ baseInfo, Type.Object({
 	type: Type.Literal("video"),
-	formats: Type.Array(format)
+	formats: Type.Array(format),
+	duration: Type.Number(),
+	viewCount: Type.Number()
 })]);
 
 export type VideoInfo = Static<typeof videoInfo>;
@@ -42,7 +47,9 @@ export type VideoInfo = Static<typeof videoInfo>;
 export const playlistEntry = Type.Object({
 	id: Type.String(),
 	url: Type.String(),
-	title: Type.String()
+	title: Type.String(),
+	channel: Type.String(),
+	thumbnail: Type.String()
 });
 
 export type PlaylistEntry = Static<typeof playlistEntry>;

@@ -24,7 +24,12 @@ export const entry = Type.Object({
 	id: Type.String(),
 	url: Type.String(),
 	title: Type.String(),
-	duration: Type.Number()
+	duration: Type.Number(),
+	channel: Type.String(),
+	thumbnails: Type.Array(Type.Object({
+		url: Type.String(),
+		width: Type.Number()
+	}))
 });
 
 export type Entry = Static<typeof entry>;
@@ -37,8 +42,16 @@ export const ytdlpResult = Type.Object({
 		Type.Literal("video"),
 		Type.Literal("playlist"),
 	]),
+	channel: Type.String(),
+	duration: Type.Optional(Type.Number()),
+	view_count: Type.Optional(Type.Number()),
 	formats: Type.Optional(Type.Array(format)),
 	entries: Type.Optional(Type.Array(entry)),
+	thumbnail: Type.Optional(Type.String()),
+	thumbnails: Type.Optional(Type.Array(Type.Object({
+		url: Type.String(),
+		width: Type.Optional(Type.Number())
+	})))
 });
 
 export type YTDLPResult = Static<typeof ytdlpResult>;
