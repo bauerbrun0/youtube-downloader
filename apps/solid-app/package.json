@@ -10,6 +10,7 @@
   "dependencies": {
     "@solid-primitives/i18n": "^2.0.0",
     "@solidjs/router": "^0.10.1",
+    "pretty-bytes": "^6.1.1",
     "solid-js": "^1.8.5",
     "types": "workspace:*"
   },

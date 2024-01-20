@@ -1,5 +1,5 @@
-import GitHubIcon from "./icons/GitHub";
-import { store } from "../lib/store";
+import GitHubIcon from "../../components/icons/GitHub";
+import { store } from "../../store";
 
 export default function Footer() {
 	return (

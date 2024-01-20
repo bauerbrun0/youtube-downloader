@@ -1,5 +1,12 @@
-import { Dict, Locale, RawDict } from "../types";
 import { flatten, translator } from "@solid-primitives/i18n";
+import { Flatten, Translator } from "@solid-primitives/i18n";
+import { dict } from "./dictionaries/en";
+
+export type Locale = "en" | "hu";
+
+export type RawDict = typeof dict;
+export type FlatDict = Flatten<RawDict>;
+export type Dict = Translator<FlatDict>;
 
 export function getBrowserLocale(): Locale {
 	const locale = navigator.language;
@@ -20,7 +27,7 @@ export function getInitialLocale(): Locale {
 }
 
 export async function fetchDictionary(locale: Locale): Promise<Dict> {
-	const rawDict: RawDict = (await import(`../i18n/${locale}.ts`)).dict;
+	const rawDict: RawDict = (await import(`./dictionaries/${locale}.ts`)).dict;
 	const dict: Dict = translator(() => flatten(rawDict));
 	return dict;
 }

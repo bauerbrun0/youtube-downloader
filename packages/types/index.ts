@@ -10,7 +10,8 @@ export const baseInfo = Type.Object({
 		Type.Literal("playlist"),
 	]),
 	channel: Type.String(),
-	thumbnail: Type.String()
+	thumbnail: Type.String(),
+	requestedUrl: Type.String(),
 });
 
 export type BaseInfo = Static<typeof baseInfo>;
@@ -30,7 +31,7 @@ export const format = Type.Object({
 	abr: Type.Union([ Type.Number(), Type.Null() ]),
 	container: Type.Optional(Type.String()),
 	width: Type.Optional(Type.Union([ Type.Number(), Type.Null() ])),
-	height: Type.Optional(Type.Union([ Type.Number(), Type.Null() ]))
+	height: Type.Optional(Type.Union([ Type.Number(), Type.Null() ])),
 });
 
 export type Format = Static<typeof format>;
@@ -48,7 +49,10 @@ export const playlistEntry = Type.Object({
 	id: Type.String(),
 	url: Type.String(),
 	title: Type.String(),
+	duration: Type.Number(),
 	channel: Type.String(),
+	channelUrl: Type.String(),
+	viewCount: Type.Number(),
 	thumbnail: Type.String()
 });
 
@@ -60,3 +64,10 @@ export const playlistInfo = Type.Composite([ baseInfo, Type.Object({
 })]);
 
 export type PlaylistInfo = Static<typeof playlistInfo>;
+
+export const quality = Type.Union([
+	Type.Literal("best"),
+	Type.Literal("worst")
+]);
+
+export type Quality = Static<typeof quality>;

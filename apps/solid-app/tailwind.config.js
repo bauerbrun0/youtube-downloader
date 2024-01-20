@@ -20,6 +20,15 @@ module.exports = {
 			},
 			gridTemplateRows: {
 				layout: "max-content auto max-content",
+			},
+			keyframes: {
+				fadeIn: {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
+				}
+			},
+			animation: {
+				fade: 'fadeIn 1s cubic-bezier(0, 0, 0.2, 1)'
 			}
 		},
 		

@@ -1,10 +1,11 @@
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
+import Home from "../pages/Home";
 import { createEffect, onMount } from "solid-js";
-import { Router, Route } from "@solidjs/router";
+import { Router, Route, Navigate, useLocation } from "@solidjs/router";
 
-import { store } from "./lib/store";
+import { store } from "../store";
+import Info from "../pages/Info";
 
 function App() {
 	// Enable :active pseudo-class on mobile
@@ -15,12 +16,16 @@ function App() {
 	createEffect(() => document.getElementsByTagName("html")[0].lang = store.locale);
 
 	return (
-		<div class="min-h-screen grid grid-flow-row grid-rows-layout">
+		<div class="min-h-[calc(100dvh)] grid grid-flow-row grid-rows-layout grid-cols-1">
 			<Navbar />
 			<div>
-				<div class="mx-auto 2xl:max-w-screen-2xl 2xl:min-w-screen-2xl min-h-full h-full px-2">
+				<div class="min-h-full h-full">
 					<Router>
 						<Route path="/" component={Home} />
+						<Route path={["watch", "playlist"]} component={
+							() => <Navigate href={`/${encodeURIComponent((useLocation().pathname).slice(1) + useLocation().search)}`}/>
+						} />
+						<Route path="/:encodedYouTubePath" component={Info} />
 					</Router>
 				</div>
 			</div>

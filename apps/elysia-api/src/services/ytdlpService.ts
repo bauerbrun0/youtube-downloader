@@ -1,4 +1,4 @@
-import { PlaylistInfo, VideoInfo } from 'types';
+import { Format, PlaylistInfo, VideoInfo } from 'types';
 import YTDLP from '../utils/ytdlp';
 import { BadRequestError } from '../utils/errors';
 import { Dict } from "../utils/i18n/types";
@@ -12,7 +12,7 @@ async function getVideoInfo (url: string, dict: Dict): Promise<VideoInfo> {
 		throw new BadRequestError(dict("errors.urlDoesNotPointToAVideo"));
 	}
 
-	const formats = ytdlpResult.formats?.map((format) => ({
+	const formats: Format[] | undefined = ytdlpResult.formats?.map((format) => ({
 		formatId: format.format_id,
 		format: format.format,
 		fileSize: format.filesize,
@@ -39,7 +39,8 @@ async function getVideoInfo (url: string, dict: Dict): Promise<VideoInfo> {
 		formats: formats || [],
 		duration: ytdlpResult.duration!,
 		viewCount: ytdlpResult.view_count!,
-		thumbnail: ytdlpResult.thumbnail!
+		thumbnail: ytdlpResult.thumbnail!,
+		requestedUrl: url
 	};
 }
 
@@ -54,7 +55,10 @@ async function getPlaylistInfo (url: string, dict: Dict): Promise<PlaylistInfo> 
 		id: entry.id,
 		url: entry.url,
 		title: entry.title,
+		duration: entry.duration,
 		channel: entry.channel,
+		channelUrl: entry.channel_url,
+		viewCount: entry.view_count,
 		thumbnail: entry.thumbnails!.find(
 			thumbnail => thumbnail.width === Math.max(...entry.thumbnails.map(t => t.width))
 		)!.url
@@ -69,7 +73,8 @@ async function getPlaylistInfo (url: string, dict: Dict): Promise<PlaylistInfo> 
 		entries: entries || [],
 		thumbnail: ytdlpResult.thumbnails!.find(
 			thumbnail => thumbnail.width === Math.max(...ytdlpResult.thumbnails!.map(t => t.width!))
-		)!.url
+		)!.url,
+		requestedUrl: url
 	};
 }
 
@@ -80,13 +85,16 @@ async function getInfo (url: string, dict: Dict): Promise<VideoInfo | PlaylistIn
 		id: entry.id,
 		url: entry.url,
 		title: entry.title,
+		duration: entry.duration,
 		channel: entry.channel,
+		channelUrl: entry.channel_url,
+		viewCount: entry.view_count,
 		thumbnail: entry.thumbnails!.find(
 			thumbnail => thumbnail.width === Math.max(...entry.thumbnails.map(t => t.width))
 		)!.url
 	}));
 
-	const formats = json.formats?.map((format) => ({
+	const formats: Format[] | undefined = json.formats?.map((format) => ({
 		formatId: format.format_id,
 		format: format.format,
 		fileSize: format.filesize,
@@ -108,7 +116,8 @@ async function getInfo (url: string, dict: Dict): Promise<VideoInfo | PlaylistIn
 		id: json.id,
 		url: json.webpage_url,
 		title: json.title,
-		channel: json.channel
+		channel: json.channel,
+		requestedUrl: url
 	};
 
 	if (json._type === "video") {
@@ -118,7 +127,7 @@ async function getInfo (url: string, dict: Dict): Promise<VideoInfo | PlaylistIn
 			formats: formats || [],
 			duration: json.duration!,
 			viewCount: json.view_count!,
-			thumbnail: json.thumbnail!
+			thumbnail: json.thumbnail!,
 		};
 	}
 

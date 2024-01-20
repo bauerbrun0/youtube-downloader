@@ -3,8 +3,9 @@
 		"Bun": true,
 		"console": true,
 		"Response": true,
-		"URL": true
+		"URL": true,
+		"Request": true
 	},
 	"extends": ["@local/eslint-config/common.json"],
-	"ignorePatterns": ["public/"]
+	"ignorePatterns": ["public/", "solid-build/"]
 }

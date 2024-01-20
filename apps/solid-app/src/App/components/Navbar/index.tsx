@@ -1,11 +1,11 @@
-import logo from "../../assets/logo.svg";
-import US from "../icons/flags/UnitedStates";
-import HU from "../icons/flags/Hungarian";
-import SunIcon from "../icons/Sun";
-import MoonIcon from "../icons/Moon";
-import ChevronIcon from "../icons/Chevron";
+import logo from "../../../assets/logo.svg";
+import US from "../../../components/icons/flags/UnitedStates";
+import HU from "../../../components/icons/flags/Hungarian";
+import SunIcon from "../../../components/icons/Sun";
+import MoonIcon from "../../../components/icons/Moon";
+import ChevronIcon from "../../../components/icons/Chevron";
 
-import { store } from "../../lib/store";
+import { store } from "../../../store";
 import { Match, Show, Switch, createSignal } from "solid-js";
 import ThemeDropdown from "./ThemeDropdown";
 import LocaleDropdown from "./LocaleDropdown";
@@ -17,10 +17,14 @@ export default function Navbar() {
 	const toggleLocaleDropdown = () => setLocaleDropdownOpen(!localeDropdownOpen());
 
 	return (
-		<div class="sticky top-0 bg-background dark:bg-background-dark">
-			<div class="mx-auto 2xl:max-w-screen-2xl 2xl:min-w-screen-2xl flex items-center py-2 px-2 xl:py-3">
-				<img src={logo} class="h-10 sm:h-12 mr-2 sm:mr-4"/>
-				<h1 class="text-xl font-bold">YouTube Downloader</h1>
+		<div class="sticky top-0 z-50 h-[55px] sm:h-[65px] xl:h-[70px] bg-background dark:bg-background-dark">
+			<div class="mx-auto h-full 2xl:max-w-screen-2xl 2xl:min-w-screen-2xl flex items-center py-2 px-2 xl:py-3">
+				<a href="/"	class="mr-2 sm:mr-4" >
+					<img src={logo} class="h-10 sm:h-12"/>
+				</a>
+				<a href="/">
+					<h1 class="text-xl font-bold">YouTube Downloader</h1>
+				</a>
 				<div class="relative ml-auto flex items-center space-x-4 md:space-x-8">
 					<button onClick={toggleThemeDropdown}>
 						<Switch>
