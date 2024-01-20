@@ -1,7 +1,7 @@
 import { createStore } from "solid-js/store";
-import { fetchDictionary, getBrowserLocale, getInitialLocale, getInitialDict } from "./utils/locale";
-import { isThemeStored, getSystemTheme, getInitialTheme } from "./utils/theme";
-import { Dict, Locale, Theme } from "./types";
+import { fetchDictionary, getBrowserLocale, getInitialLocale, getInitialDict, Dict, Locale } from "../utils/i18n";
+import { isThemeStored, getSystemTheme, getInitialTheme, Theme } from "../utils/theme";
+import { PlaylistInfo, VideoInfo } from "types";
 
 type Store = {
 	theme: Theme;
@@ -9,6 +9,7 @@ type Store = {
 	locale: Locale;
 	browserLocale: Locale;
 	dict: Dict;
+	info?: VideoInfo | PlaylistInfo;
 };
 
 const [store, setStore] = createStore<Store>({
@@ -41,4 +42,12 @@ export async function changeLanguage(locale: Locale) {
 
 	if (locale !== store.browserLocale) localStorage.setItem("locale", locale);
 	else localStorage.removeItem("locale");
+}
+
+export function setInfo(info: VideoInfo | PlaylistInfo) {
+	setStore("info", info);
+}
+
+export function clearInfo() {
+	setStore("info", undefined);
 }

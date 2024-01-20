@@ -1,10 +1,10 @@
-import SunIcon from "../icons/Sun";
-import MoonIcon from "../icons/Moon";
-import MonitorIcon from "../icons/Monitor";
+import SunIcon from "../../../components/icons/Sun";
+import MoonIcon from "../../../components/icons/Moon";
+import MonitorIcon from "../../../components/icons/Monitor";
 
-import { store, changeTheme, useSystemTheme } from "../../lib/store";
+import { store, changeTheme, useSystemTheme } from "../../../store";
 import { createMemo, onMount } from "solid-js";
-import { registerOnClickOutside } from "../../lib/utils";
+import { registerOnClickOutside } from "../../../utils/dom";
 
 export default function ThemeDropdown(props: { closeDropDown: () => void  }) {
 
@@ -35,7 +35,7 @@ export default function ThemeDropdown(props: { closeDropDown: () => void  }) {
 			class="
 				absolute top-full right-0 2xl:right-1/2 2xl:translate-x-1/2
 				flex flex-col space-y-1
-				border rounded-md mt-8 py-2 border-secondary bg-background
+				border rounded-md mt-6 md:mt-8 py-2 border-secondary bg-background
 				dark:border-secondary-dark dark:bg-background-dark
 			"
 		>

@@ -26,10 +26,12 @@ export const entry = Type.Object({
 	title: Type.String(),
 	duration: Type.Number(),
 	channel: Type.String(),
+	channel_url: Type.String(),
+	view_count: Type.Number(),
 	thumbnails: Type.Array(Type.Object({
 		url: Type.String(),
 		width: Type.Number()
-	}))
+	})),
 });
 
 export type Entry = Static<typeof entry>;
