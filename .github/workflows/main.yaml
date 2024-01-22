@@ -2,9 +2,9 @@ name: Main workflow
 
 on:
     push:
-        branches: [master]
+        branches: [main]
     pull_request:
-        branches: [master]
+        branches: [main]
         types: [opened, synchronize]
 
 jobs:
@@ -40,7 +40,7 @@ jobs:
                     python-version: '3.11'
             -
                 name: Install yt-dlp
-                run: curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp && chmod a+rx /usr/bin/yt-dlp
+                run: sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp && sudo chmod a+rx /usr/bin/yt-dlp
             - 
                 name: Git checkout
                 uses: actions/checkout@v4
