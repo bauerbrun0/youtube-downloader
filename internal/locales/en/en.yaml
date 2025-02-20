@@ -1,0 +1,15 @@
+en:
+  hello: "Hi"
+  header:
+    theme:
+      light: "Light"
+      dark: "Dark"
+      system: "System"
+  home:
+    title: "Download video or audio from YouTube"
+    description: "✨ Unleash the magic! Paste a YouTube URL below, click 'Download' and be the offline hero you were born to be!"
+    download: "Download"
+    blank_url: "This field cannot be blank"
+    not_youtube_url: "This field must be a valid YouTube url"
+  footer:
+    made_by: "Made by"

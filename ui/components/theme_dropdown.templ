@@ -1,0 +1,58 @@
+package components
+
+import "github.com/invopop/ctxi18n/i18n"
+
+templ themeDropdown() {
+    <div
+        x-cloak x-data x-show="$store.themeDropdown"
+        @click.outside="$store.themeDropdown = false"
+	    class="
+			absolute top-full right-0 2xl:right-1/2 2xl:translate-x-1/2
+			flex flex-col space-y-1
+			border rounded-md mt-6 md:mt-8 py-2 border-secondary bg-background
+			dark:border-secondary-dark dark:bg-background-dark
+		"
+	>
+		<button
+			class="flex items-center space-x-2 p-1 pl-2 pr-8 hover:bg-neutral-200 dark:hover:bg-neutral-800"
+			x-data
+			@click="$store.theme.switchTheme('light')"
+		>
+		    @sunIcon("h-6 w-6 text-text dark:text-text-dark")
+			<span
+			    x-data
+			    :class="$store.theme.current === 'light' && 'font-bold'"
+			>
+			    { i18n.T(ctx, "header.theme.light") }
+			</span>
+		</button>
+		<button
+			class="flex items-center space-x-2 p-1 pl-2 pr-8 hover:bg-neutral-200 dark:hover:bg-neutral-800"
+		    x-data
+			@click="$store.theme.switchTheme('dark')"
+			:class="$store.theme.current === 'dark' && 'font-bold'"
+		>
+		    @moonIcon("h-6 w-6 text-text dark:text-text-dark stroke-[1.5px]")
+		    <span
+                x-data
+                :class="$store.theme.current === 'dark' && 'font-bold'"
+            >
+                { i18n.T(ctx, "header.theme.dark") }
+            </span>
+		</button>
+		<button
+			class="flex items-center space-x-2 p-1 pl-2 pr-8 hover:bg-neutral-200 dark:hover:bg-neutral-800"
+			x-data
+			@click="$store.theme.switchTheme('system')"
+			:class="$store.theme.current === 'system' && 'font-bold'"
+		>
+		    @monitorIcon("h-6 w-6 text-text dark:text-text-dark stroke-[1.5px]")
+            <span
+                x-data
+                :class="$store.theme.current === 'system' && 'font-bold'"
+            >
+                 { i18n.T(ctx, "header.theme.system") }
+            </span>
+		</button>
+	</div>
+}

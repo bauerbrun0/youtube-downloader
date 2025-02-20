@@ -1,0 +1,36 @@
+package layouts
+
+import "github.com/bauerbrun0/youtube-downloader/internal/appctx"
+import "github.com/bauerbrun0/youtube-downloader/ui/components"
+
+templ head() {
+    <head>
+    	<meta charset="utf-8"/>
+    	<meta name="viewport" content="width=device-width">
+    	<meta name="description" content="Download YouTube videos and audio effortlessly with YouTube Downloader, powered by yt-dlp. Save videos in multiple formats like MP4, MP3, and more. Fast, free, and easy to use!">
+        <meta name="keywords" content="YouTube Downloader, yt-dlp, download YouTube videos, YouTube to MP3, YouTube to MP4, video downloader, audio downloader">
+    	<title>YouTube Downloader</title>
+    	<link rel="stylesheet" href="/static/css/main.css"/>
+    	<script defer src="/static/js/main.js"></script>
+    </head>
+}
+
+templ BaseLayout() {
+	<!DOCTYPE html>
+	<html
+	    lang={ appctx.GetLanguage(ctx) }
+	    translate="no"
+	    class={"notranslate", templ.KV("dark", appctx.GetTheme(ctx) == "dark")}
+	>
+		@head()
+		<body class="min-h-[calc(100dvh)] grid grid-flow-row grid-rows-layout grid-cols-1">
+			@components.Header()
+			<div>
+				<main class="min-h-full h-full">
+					{ children... }
+				</main>
+			</div>
+			@components.Footer()
+		</body>
+	</html>
+}

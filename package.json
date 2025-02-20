@@ -1,0 +1,20 @@
+{
+	"name": "youtube-downloader",
+	"type": "module",
+	"scripts": {
+		"dev": "concurrently --names templ,server,tailwind,sync_static,esbuild --prefix \"[{index}] {name}\" --prefix-colors blue,red,green,yellow,pink \"make dev/templ\" \"make dev/server\" \"make dev/tailwind\" \"make dev/sync_static\" \"npm run esbuild:watch\"",
+		"esbuild:watch": "esbuild ./ui/js/main.js --bundle --outfile=./ui/static/js/main.js --sourcemap --watch",
+		"esbuild:prod": "esbuild ./ui/js/main.js --bundle --outfile=./ui/static/js/main.js --minify"
+	},
+	"devDependencies": {
+		"concurrently": "^9.1.2",
+		"esbuild": "0.25.0",
+		"tailwindcss": "^3.4.17"
+	},
+	"dependencies": {
+		"alpinejs": "^3.14.8",
+		"htmx-ext-response-targets": "^2.0.3",
+		"htmx.org": "^1.9.12",
+		"js-cookie": "^3.0.5"
+	}
+}

@@ -1,0 +1,8 @@
+.idea/
+
+node_modules/
+
+*/**/*_templ.go
+
+ui/static/css/
+ui/static/js/

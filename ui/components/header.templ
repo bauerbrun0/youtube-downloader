@@ -1,0 +1,43 @@
+package components
+
+import "github.com/bauerbrun0/youtube-downloader/internal/appctx"
+
+templ Header() {
+	<header class="sticky top-0 z-50 h-[55px] sm:h-[65px] xl:h-[70px] bg-background dark:bg-background-dark">
+		<div class="mx-auto h-full 2xl:max-w-screen-2xl 2xl:min-w-screen-2xl flex items-center py-2 px-2 xl:py-3">
+			<a href="/" class="mr-2 sm:mr-4">
+				<img width="68px" height="48px" src="/static/images/logo.svg" class="h-10 sm:h-12" alt="logo"/>
+			</a>
+			<a href="/">
+				<h1 class="text-xl font-bold">YouTube Downloader</h1>
+			</a>
+			<div
+			    class="relative ml-auto flex items-center space-x-4 md:space-x-8">
+				<button x-data @click="$store.themeDropdown = !$store.themeDropdown" aria-label="Theme dropdown">
+				    <template x-data x-if="$store.theme.actual === 'dark'">
+					    @moonIcon("h-6 w-6 text-text dark:text-text-dark stroke-[1.5px]")
+				    </template>
+				    <template x-data x-if="$store.theme.actual === 'light'">
+                        @sunIcon("h-6 w-6 text-text dark:text-text-dark stroke-[1.5px]")
+                    </template>
+				</button>
+				<button
+				    class="flex items-center space-x-1"
+				    x-data @click="$store.languageDropdown = !$store.languageDropdown"
+				    aria-label="Language dropdown"
+				>
+				    if appctx.GetLanguage(ctx) == "en" {
+                        @usFlag("h-6 w-6")
+				    }
+				    if appctx.GetLanguage(ctx) == "hu" {
+                        @huFlag("h-6 w-6")
+                    }
+					@chevronIcon("h-6 text-text dark:text-text-dark stroke-[1.5px] hidden sm:block")
+				</button>
+				@themeDropdown()
+				@languageDropdown()
+			</div>
+		</div>
+		<hr class="border-secondary dark:border-secondary-dark"/>
+	</header>
+}

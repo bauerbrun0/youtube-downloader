@@ -1,0 +1,67 @@
+package home
+
+import (
+    "github.com/invopop/ctxi18n/i18n"
+    "github.com/bauerbrun0/youtube-downloader/internal/validator"
+)
+
+type HomeForm struct {
+	Url                 string `form:"url"`
+	validator.Validator `form:"-"`
+}
+
+templ Form(formData HomeForm) {
+    <form
+        hx-post="/"
+        hx-swap="outerHTML"
+    	class={`
+    	        w-full items-center w-full sm:w-4/5 md:w-3/5 xl:w-2/5
+    	    `,
+    	        templ.KV("mt-6", formData.FieldErrors["url"] == "")
+    	}
+    >
+        if formData.FieldErrors["url"] != "" {
+            <label class="text-red-400 font-bold text-sm w-full px-1 h-6 flex items-end">
+                { formData.FieldErrors["url"] }
+            </label>
+        }
+        <div class="flex flex-col md:flex-row items-center w-full">
+            <input
+                aria-label="YouTube URL input"
+                required
+                name="url"
+                type="text"
+            	class={`
+            	        w-full mb-4 md:mb-0 md:mr-4 p-3 bg-background dark:bg-background-dark border-[1.5px] rounded-lg
+            	        border-accent dark:border-accent-dark placeholder-accent dark:placeholder-accent-dark
+            	        focus:ring-1 focus:ring-text dark:focus:ring-text-dark
+            	    `,
+            	        templ.KV(
+            	            "ring-1 ring-red-400 dark:ring-1 dark:ring-red-400 border-red-400 dark:border-red-400",
+            	            formData.FieldErrors["url"] != "")
+            	}
+            	placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            	spellcheck="false"
+            	autocapitalize="none"
+            	value={ formData.Url }
+            />
+            <button
+            	class="
+            		text-white bg-primary dark:bg-primary-dark
+            		border-[1.5px] rounded-lg border-primary dark:border-primary-dark
+            		active:bg-red-600 active:border-red-600 dark:active:bg-red-600 dark:active:border-red-600
+            		md:hover:bg-red-600 md:hover:border-red-600 dark:md:hover:bg-red-600 dark:md:hover:border-red-600
+            		disabled:bg-red-600 disabled:border-red-600 dark:disabled:bg-red-600 dark:disabled:border-red-600
+            		disabled:cursor-not-allowed
+            		focus-visible:ring-1 focus-visible:ring-text dark:focus-visible:ring-text-dark
+            		w-full md:w-40 md:min-w-fit p-3 font-bold
+            	"
+            	type="submit"
+            >
+            	<span class="flex items-center space-x-2 mx-auto w-fit" >
+            		<span>{ i18n.T(ctx, "home.download") }</span>
+            	</span>
+            </button>
+        </div>
+    </form>
+}

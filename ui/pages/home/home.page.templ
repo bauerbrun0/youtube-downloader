@@ -1,0 +1,20 @@
+package home
+
+import (
+    "github.com/bauerbrun0/youtube-downloader/ui/layouts"
+    "github.com/invopop/ctxi18n/i18n"
+)
+
+var formData HomeForm
+
+templ Page() {
+	@layouts.BaseLayout() {
+		<div class="flex flex-col items-center justify-center h-full mx-auto 2xl:max-w-screen-2xl 2xl:min-w-screen-2xl py-10 px-2">
+			<h1 class="text-3xl sm:text-4xl font-bold text-center">{ i18n.T(ctx, "home.title") }</h1>
+			<p class="w-full sm:w-4/5 md:w-1/2 2xl:w-1/3 text-center text-accent mt-6">
+            	{ i18n.T(ctx, "home.description") }
+            </p>
+            @Form(formData)
+		</div>
+	}
+}

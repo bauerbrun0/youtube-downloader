@@ -1,0 +1,15 @@
+hu:
+  hello: "Szia"
+  header:
+    theme:
+      light: "Világos"
+      dark: "Sötét"
+      system: "Rendszer"
+  home:
+    title: "Videó vagy hang letöltése YouTube-ról"
+    description: "✨ Szabadítsd fel a varázslatot! Illessz be egy YouTube URL-t lent, kattints a 'Letöltés' gombra, és légy az offline hős, akinek születtél!"
+    download: "Letöltés"
+    blank_url: "Ez a mező nem lehet üres"
+    not_youtube_url: "Kérlek írj be egy YouTube URL-t"
+  footer:
+    made_by: "Készítette"

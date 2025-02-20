@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply bg-background;
+	@apply dark:bg-background-dark;
+	@apply text-text;
+	@apply dark:text-text-dark;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input:focus,
+button:focus {
+	@apply outline-none;
+}
+
+[x-cloak] { display: none !important; }

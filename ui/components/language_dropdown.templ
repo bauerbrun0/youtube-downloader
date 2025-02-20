@@ -1,0 +1,35 @@
+package components
+
+import "github.com/bauerbrun0/youtube-downloader/internal/appctx"
+
+templ languageDropdown(){
+    <div
+        x-cloak x-data x-show="$store.languageDropdown"
+        @click.outside="$store.languageDropdown = false"
+		class="
+			absolute top-full right-0 2xl:right-1/2 2xl:translate-x-1/2
+			flex flex-col space-y-1
+			border rounded-md mt-6 md:mt-8 py-2 border-secondary bg-background
+			dark:border-secondary-dark dark:bg-background-dark
+		"
+		>
+		    <form action="/set-language/en" method="POST">
+			    <button
+			        type="submit"
+			    	class="flex items-center space-x-2 p-1 pr-16 hover:bg-neutral-200 dark:hover:bg-neutral-800"
+			    >
+			    	@usFlag("h-6 w-6 mx-1")
+			    	<span class={templ.KV("font-bold", appctx.GetLanguage(ctx) == "en")}>English</span>
+			    </button>
+			</form>
+			<form action="/set-language/hu" method="POST">
+			    <button
+			        type="submit"
+			    	class="flex items-center space-x-2 p-1 pr-16 hover:bg-neutral-200 dark:hover:bg-neutral-800"
+			    >
+			    	@huFlag("h-6 w-6 mx-1")
+			    	<span class={templ.KV("font-bold", appctx.GetLanguage(ctx) == "hu")}>Magyar</span>
+			    </button>
+			</form>
+		</div>
+}
