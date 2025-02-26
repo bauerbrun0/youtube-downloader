@@ -1,0 +1,25 @@
+package error
+
+import "github.com/invopop/ctxi18n/i18n"
+
+templ ErrorPage(err string) {
+    <div class="flex flex-col items-center justify-center h-full py-10 mx-auto 2xl:max-w-screen-2xl 2xl:min-w-screen-2xl px-2">
+		<h1 class="text-8xl font-black text-secondary dark:text-secondary-dark">{ i18n.T(ctx, "error.oops") }</h1>
+		<p class="mt-6 text-text dark:text-text-dark text-center text-lg font-bold">{ err }</p>
+		<a href="/" class="w-2/3 md:w-fit mx-auto my-6" >
+			<button
+				class="
+					text-white bg-primary dark:bg-primary-dark
+					border-[1.5px] rounded-lg border-primary dark:border-primary-dark
+					active:bg-red-600 active:border-red-600 dark:active:bg-red-600 dark:active:border-red-600
+					md:hover:bg-red-600 md:hover:border-red-600 dark:md:hover:bg-red-600 dark:md:hover:border-red-600
+					focus-visible:ring-1 focus-visible:ring-text dark:focus-visible:ring-text-dark
+					w-full md:w-40 md:min-w-fit mx-auto p-3 font-semibold
+				"
+			>
+				{ i18n.T(ctx, "error.back_home_button") }
+			</button>
+		</a>
+	</div>
+}
+

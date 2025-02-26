@@ -13,7 +13,6 @@
 	},
 	"dependencies": {
 		"alpinejs": "^3.14.8",
-		"htmx-ext-response-targets": "^2.0.3",
 		"htmx.org": "^1.9.12",
 		"js-cookie": "^3.0.5"
 	}

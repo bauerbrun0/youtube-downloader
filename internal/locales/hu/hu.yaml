@@ -1,5 +1,4 @@
 hu:
-  hello: "Szia"
   header:
     theme:
       light: "Világos"
@@ -13,3 +12,8 @@ hu:
     not_youtube_url: "Kérlek írj be egy YouTube URL-t"
   footer:
     made_by: "Készítette"
+  error:
+    back_home_button: "Vissza a Kezdőlapra"
+    oops: "Hoppá!"
+    resource_not_found: "A kért tartalom nem található"
+    server_error: "Szerver oldali hiba történt"

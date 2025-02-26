@@ -1,5 +1,4 @@
 en:
-  hello: "Hi"
   header:
     theme:
       light: "Light"
@@ -13,3 +12,8 @@ en:
     not_youtube_url: "This field must be a valid YouTube url"
   footer:
     made_by: "Made by"
+  error:
+    back_home_button: "Go Back Home"
+    oops: "Oops!"
+    resource_not_found: "Couldn't find the requested resource"
+    server_error: "A server side error occurred"

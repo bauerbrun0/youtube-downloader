@@ -39,6 +39,16 @@ func NotBlank(value string) bool {
 	return strings.TrimSpace(value) != ""
 }
 
+func ContainsAny(value string, substrs ...string) bool {
+	for _, substr := range substrs {
+		if strings.Contains(value, substr) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func ValidYoutubeContentUrl(value string) bool {
 	u, err := url.Parse(value)
 	if err != nil {
@@ -66,16 +76,26 @@ func ValidYoutubeContentUrl(value string) bool {
 		return false
 	}
 
-	if hostname != "youtu.be" && path != "/watch" {
+	if hostname != "youtu.be" && path != "/watch" && path != "/playlist" {
 		return false
 	}
 
-	if hostname != "youtu.be" {
+	if hostname != "youtu.be" && path == "/watch" {
 		v, ok := query["v"]
 		if !ok {
 			return false
 		}
 		if len(v) != 1 {
+			return false
+		}
+	}
+
+	if hostname != "youtu.be" && path == "/playlist" {
+		list, ok := query["list"]
+		if !ok {
+			return false
+		}
+		if len(list) != 1 {
 			return false
 		}
 	}
