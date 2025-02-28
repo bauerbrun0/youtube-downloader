@@ -7,6 +7,7 @@ require (
 	github.com/go-playground/form v3.1.4+incompatible
 	github.com/invopop/ctxi18n v0.9.0
 	github.com/justinas/alice v1.2.0
+	golang.org/x/text v0.22.0
 )
 
 require (

@@ -3,6 +3,9 @@
 node_modules/
 
 */**/*_templ.go
+*/**/*_templ.txt
 
 ui/static/css/
 ui/static/js/
+
+tmp/

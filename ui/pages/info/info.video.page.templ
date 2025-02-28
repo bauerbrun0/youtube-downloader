@@ -1,9 +1,56 @@
 package info
 
-import "github.com/bauerbrun0/youtube-downloader/internal/ytdlp"
+import (
+    "github.com/bauerbrun0/youtube-downloader/internal/ytdlp"
+    "github.com/bauerbrun0/youtube-downloader/internal/appctx"
+	"context"
+	"golang.org/x/text/message"
+	"fmt"
+	"strings"
+	"github.com/invopop/ctxi18n/i18n"
+)
+
+func formatDuration(seconds int, ctx context.Context) string {
+    hours := seconds / 3600
+	minutes := (seconds % 3600) / 60
+	remainingSeconds := seconds % 60
+
+	var sb strings.Builder
+
+	if hours > 0 {
+	    sb.WriteString(fmt.Sprintf("%d%s ", hours, i18n.T(ctx, "info.hour_shorthand")))
+	}
+
+	if minutes > 0 {
+	    sb.WriteString(fmt.Sprintf("%d%s ", minutes, i18n.T(ctx, "info.minute_shorthand")))
+	}
+
+	sb.WriteString(fmt.Sprintf("%d%s", remainingSeconds, i18n.T(ctx, "info.second_shorthand")))
+
+    return sb.String();
+}
+
+func formatViewCount(viewCount int, ctx context.Context) string {
+    if viewCount > 1000000 {
+        return fmt.Sprintf("%.2f%s %s", float64(viewCount) / 1000000, i18n.T(ctx, "info.million_shorthand"), i18n.T(ctx, "info.views"))
+    }
+
+    if viewCount > 1000 {
+        return fmt.Sprintf("%.2f%s %s", float64(viewCount) / 1000, i18n.T(ctx, "info.thousand_shorthand"), i18n.T(ctx, "info.views"))
+    }
+
+    lang := appctx.GetLanguage(ctx)
+    p := message.NewPrinter(message.MatchLanguage(lang))
+    return p.Sprintf("%d %s", viewCount, i18n.T(ctx, "info.views"))
+}
+
+func getDetails(ctx context.Context, video ytdlp.VideoInfo) string {
+    details := fmt.Sprintf("%s • %s • %s", video.Channel, formatViewCount(video.ViewCount, ctx), formatDuration(video.Duration, ctx));
+    return details
+}
 
 templ VideoInfoPage(video ytdlp.VideoInfo) {
     <div class="w-full animate-fade">
-        video
+        @header(video.Title, getDetails(ctx, video), video.ThumbnailUrl)
     </div>
 }

@@ -17,3 +17,10 @@ hu:
     oops: "Hoppá!"
     resource_not_found: "A kért tartalom nem található"
     server_error: "Szerver oldali hiba történt"
+  info:
+    views: megtekintés
+    million_shorthand: M
+    thousand_shorthand: E
+    hour_shorthand: ó
+    minute_shorthand: p
+    second_shorthand: mp

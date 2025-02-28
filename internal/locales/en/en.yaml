@@ -17,3 +17,10 @@ en:
     oops: "Oops!"
     resource_not_found: "Couldn't find the requested resource"
     server_error: "A server side error occurred"
+  info:
+    views: views
+    million_shorthand: M
+    thousand_shorthand: K
+    hour_shorthand: h
+    minute_shorthand: m
+    second_shorthand: s
