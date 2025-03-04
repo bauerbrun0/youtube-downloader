@@ -17,7 +17,7 @@ export function getStoredTheme() {
 }
 
 export function setStoredTheme(theme) {
-    Cookies.set("theme", theme)
+    Cookies.set("theme", theme);
 }
 
 export function toggleHtmlDarkClass(theme) {

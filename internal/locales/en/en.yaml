@@ -17,10 +17,18 @@ en:
     oops: "Oops!"
     resource_not_found: "Couldn't find the requested resource"
     server_error: "A server side error occurred"
+    client_error: "A client side error occurred"
   info:
-    views: views
-    million_shorthand: M
-    thousand_shorthand: K
-    hour_shorthand: h
-    minute_shorthand: m
-    second_shorthand: s
+    views: "views"
+    million_shorthand: "M"
+    thousand_shorthand: "K"
+    hour_shorthand: "h"
+    minute_shorthand: "m"
+    second_shorthand: "s"
+    quick_download_title: "Quick Download"
+    audio: "Audio"
+    video: "Video"
+    video_and_audio: "Video and Audio"
+    best: "Best"
+    worst: "Worst"
+    download: "Download"

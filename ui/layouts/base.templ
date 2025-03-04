@@ -1,7 +1,9 @@
 package layouts
 
-import "github.com/bauerbrun0/youtube-downloader/internal/appctx"
-import "github.com/bauerbrun0/youtube-downloader/ui/components"
+import (
+    "github.com/bauerbrun0/youtube-downloader/internal/appctx"
+    "github.com/bauerbrun0/youtube-downloader/ui/components"
+)
 
 templ head() {
     <head>
@@ -26,7 +28,7 @@ templ BaseLayout() {
 		<body class="min-h-[calc(100dvh)] grid grid-flow-row grid-rows-layout grid-cols-1">
 			@components.Header()
 			<div>
-				<main class="min-h-full h-full">
+				<main class="min-h-full h-full" id="main">
 					{ children... }
 				</main>
 			</div>

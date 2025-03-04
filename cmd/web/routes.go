@@ -20,6 +20,8 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("GET /info/", app.info)
 	mux.HandleFunc("GET /{youtube_url}", app.infoLoading)
 
+	mux.HandleFunc("POST /quick-download", app.quickDownload)
+
 	standard := alice.New(app.recoverPanic, app.logRequest, app.disableCacheInDevMode, commonHeaders, app.languageMiddleware, app.themeMiddleware)
 
 	return standard.Then(mux)

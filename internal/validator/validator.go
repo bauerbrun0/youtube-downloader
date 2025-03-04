@@ -49,6 +49,10 @@ func ContainsAny(value string, substrs ...string) bool {
 	return false
 }
 
+func PermittedValue[T comparable](value T, permittedValues ...T) bool {
+	return slices.Contains(permittedValues, value)
+}
+
 func ValidYoutubeContentUrl(value string) bool {
 	u, err := url.Parse(value)
 	if err != nil {

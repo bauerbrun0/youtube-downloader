@@ -17,10 +17,18 @@ hu:
     oops: "Hoppá!"
     resource_not_found: "A kért tartalom nem található"
     server_error: "Szerver oldali hiba történt"
+    client_error: "Kliens oldali hiba történt"
   info:
-    views: megtekintés
-    million_shorthand: M
-    thousand_shorthand: E
-    hour_shorthand: ó
-    minute_shorthand: p
-    second_shorthand: mp
+    views: "megtekintés"
+    million_shorthand: "M"
+    thousand_shorthand: "E"
+    hour_shorthand: "ó"
+    minute_shorthand: "p"
+    second_shorthand: "mp"
+    quick_download_title: "Gyors Letöltés"
+    audio: "Audió"
+    video: "Videó"
+    video_and_audio: "Videó és Audió"
+    best: "Legjobb"
+    worst: "Legrosszabb"
+    download: "Letöltés"

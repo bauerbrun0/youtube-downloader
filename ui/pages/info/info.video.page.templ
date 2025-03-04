@@ -1,13 +1,14 @@
 package info
 
 import (
-    "github.com/bauerbrun0/youtube-downloader/internal/ytdlp"
-    "github.com/bauerbrun0/youtube-downloader/internal/appctx"
 	"context"
 	"golang.org/x/text/message"
 	"fmt"
 	"strings"
 	"github.com/invopop/ctxi18n/i18n"
+
+	"github.com/bauerbrun0/youtube-downloader/internal/ytdlp"
+    "github.com/bauerbrun0/youtube-downloader/internal/appctx"
 )
 
 func formatDuration(seconds int, ctx context.Context) string {
@@ -50,7 +51,22 @@ func getDetails(ctx context.Context, video ytdlp.VideoInfo) string {
 }
 
 templ VideoInfoPage(video ytdlp.VideoInfo) {
-    <div class="w-full animate-fade">
+    <div class="w-full animate-fade" x-data="{
+        loading: false,
+        toggleLoading() { this.loading = !this.loading }
+    }">
         @header(video.Title, getDetails(ctx, video), video.ThumbnailUrl)
+        <div class="mx-auto 2xl:max-w-screen-2xl px-2 mb-6">
+            <hr class="border-accent dark:border-accent-dark md:hidden mt-3 mb-6"/>
+            <h2 class="text-3xl md:text-2xl font-bold my-4">
+                { i18n.T(ctx, "info.quick_download_title") }
+            </h2>
+            <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
+                @QuickDownloadForm(QuickDownloadFormData{"audio_and_video", "none", "best", "best", video.Url})
+                @QuickDownloadForm(QuickDownloadFormData{"audio_and_video", "mp4", "best", "best", video.Url})
+                @QuickDownloadForm(QuickDownloadFormData{"audio", "none", "best", "", video.Url})
+                @QuickDownloadForm(QuickDownloadFormData{"audio", "mp3", "best", "", video.Url})
+            </div>
+        </div>
     </div>
 }

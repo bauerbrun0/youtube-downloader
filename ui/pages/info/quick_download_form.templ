@@ -1,0 +1,145 @@
+package info
+
+import (
+    "github.com/invopop/ctxi18n/i18n"
+    "github.com/bauerbrun0/youtube-downloader/ui/components"
+)
+
+
+type QuickDownloadFormData struct {
+    Stream          string `json:"stream" form:"stream"`
+    Convert         string `json:"convert" form:"convert"`
+    AudioQuality    string `json:"audioQuality" form:"audio_quality"`
+    VideoQuality    string `json:"videoQuality" form:"video_quality"`
+    VideoUrl        string `josn:"videoUrl" form:"video_url"`
+}
+
+templ QuickDownloadForm(formData QuickDownloadFormData) {
+    <form
+        hx-post="/quick-download"
+        hx-swap="outerHTML"
+        class="border border-secondary dark:border-secondary-dark rounded-lg p-3 flex flex-col"
+        x-data={ templ.JSONString(formData) }
+        @submit="toggleLoading()"
+    >
+        <input type="hidden" name="video_url" value={ formData.VideoUrl }>
+        <input type="hidden" name="stream" value={ formData.Stream }>
+        <input type="hidden" name="convert" value={ formData.Convert }>
+        <input type="hidden" name="audio_quality" :value="audioQuality">
+        if formData.Stream == "audio_and_video" {
+            <input type="hidden" name="video_quality" :value="videoQuality">
+        }
+
+        <div class="flex items-center place-content-between">
+            <div class="flex flex-row items-center space-x-2">
+                switch formData.Stream {
+                case "audio":
+                    <h3 class="text-xl font-semibold">{ i18n.T(ctx, "info.audio") }</h3>
+                case "audio_and_video":
+                    <h3 class="text-xl font-semibold">{ i18n.T(ctx, "info.video_and_audio") }</h3>
+                }
+                if formData.Convert != "none" {
+                    <div class="bg-primary text-white text-xs rounded-md py-0.5 px-1 font-bold">{ formData.Convert }</div>
+                }
+            </div>
+
+            if formData.Stream == "audio" {
+                @components.HeadphoneIcon("stroke-text stroke-[1.5px] w-7 h-7 dark:stroke-text-dark")
+            } else {
+                @components.FilmIcon("stroke-text stroke-[1.5px] w-7 h-7 dark:stroke-text-dark")
+            }
+        </div>
+
+        <div class="flex flex-col md:flex-row md:space-x-3 my-3">
+            <div class="flex flex-row my-2 text-sm">
+                <button
+                    type="button"
+                    @click="audioQuality = 'best'"
+                    class={`
+                        border border-secondary dark:border-secondary-dark
+                        first:rounded-l-lg last:rounded-r-lg
+                        first:border-r-0
+                        py-1 pr-3
+                        flex flex-row items-center
+                    `}
+                    :disabled="loading"
+                >
+                    @components.CheckIcon("h-4 w-4 mx-1 stroke-2", templ.Attributes{":class": "audioQuality === 'best' ? '' : 'invisible'"})
+                    { i18n.T(ctx, "info.best") } { i18n.T(ctx, "info.audio") }
+                </button>
+                <button
+                    @click="audioQuality = 'worst'"
+                    type="button"
+                    class={`
+                        border border-secondary dark:border-secondary-dark
+                        first:rounded-l-lg last:rounded-r-lg
+                        first:border-r-0
+                        py-1 pr-3
+                        flex flex-row items-center
+                    `}
+                    :disabled="loading"
+                >
+                    @components.CheckIcon("h-4 w-4 mx-1 stroke-2", templ.Attributes{":class": "audioQuality === 'best' ? 'invisible' : ''"})
+                    { i18n.T(ctx, "info.worst") } { i18n.T(ctx, "info.audio") }
+                </button>
+            </div>
+
+            if formData.Stream == "audio_and_video" {
+                <div class="flex flex-row my-2 text-sm">
+                    <button
+                        @click="videoQuality = 'best'"
+                        type="button"
+                        class={`
+                            border border-secondary dark:border-secondary-dark
+                            first:rounded-l-lg last:rounded-r-lg
+                            first:border-r-0
+                            py-1 pr-3
+                            flex flex-row items-center
+                        `}
+                        :disabled="loading"
+                    >
+                        @components.CheckIcon("h-4 w-4 mx-1 stroke-2", templ.Attributes{":class": "videoQuality === 'best' ? '' : 'invisible'"})
+                        { i18n.T(ctx, "info.best") } { i18n.T(ctx, "info.video") }
+                    </button>
+                    <button
+                        @click="videoQuality = 'worst'"
+                        type="button"
+                        class={`
+                            border border-secondary dark:border-secondary-dark
+                            first:rounded-l-lg last:rounded-r-lg
+                            first:border-r-0
+                            py-1 pr-3
+                            flex flex-row items-center
+                        `}
+                        :disabled="loading"
+                    >
+                        @components.CheckIcon("h-4 w-4 mx-1 stroke-2", templ.Attributes{":class": "videoQuality === 'best' ? 'invisible' : ''"})
+                        { i18n.T(ctx, "info.worst") } { i18n.T(ctx, "info.video") }
+                    </button>
+                </div>
+            }
+        </div>
+
+        <button
+            type="submit"
+            class={`
+            	w-full mt-auto px-3 py-2 font-bold border rounded-xl
+            	bg-white dark:bg-secondary-dark
+            	text-text dark:text-text-dark
+            	border-secondary dark:border-none
+            	md:hover:bg-primary md:dark:hover:bg-primary-dark
+            	active:hover:bg-primary active:dark:hover:bg-primary-dark
+            	md:hover:text-white active:hover:text-white
+            	disabled:cursor-wait
+            	disabled:hover:bg-white dark:disabled:hover:bg-secondary-dark
+            	disabled:hover:text-text dark:disabled:hover:text-text-dark
+            `}
+            :disabled="loading"
+        >
+        	<div class="flex items-center space-x-2 w-fit mx-auto">
+        		<span>{ i18n.T(ctx, "info.download") }</span>
+        		@components.Spinner("h-4 w-4 fill-white text-neutral-600 htmx-indicator")
+        	</div>
+        </button>
+   </form>
+}
