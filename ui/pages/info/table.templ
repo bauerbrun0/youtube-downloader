@@ -1,0 +1,137 @@
+package info
+
+import (
+    "fmt"
+
+    "github.com/bauerbrun0/youtube-downloader/ui/components"
+	"github.com/invopop/ctxi18n/i18n"
+)
+
+templ videoFormatsTable() {
+    <div x-data="{
+            isHeaderSyncing: false,
+            isBodySyncing: false,
+            onHeaderScroll() {
+                if (!this.isBodySyncing) {
+                    this.isHeaderSyncing = true;
+                    $refs.tableBody.scrollLeft = $refs.tableHeader.scrollLeft;
+                    this.isHeaderSyncing = false;
+                }
+            },
+            onBodyScroll() {
+                if (!this.isHeaderSyncing) {
+                    this.isBodySyncing = true;
+                    $refs.tableHeader.scrollLeft = $refs.tableBody.scrollLeft;
+                    this.isBodySyncing = false;
+                }
+            }
+        }"
+    >
+        @tableHeader() {
+            @formatRow() {
+                @headerColumn(i18n.T(ctx, "info.id"))
+                @headerColumn(i18n.T(ctx, "info.resolution"))
+                @headerColumn(i18n.T(ctx, "info.note"))
+                @headerColumn(i18n.T(ctx, "info.extension"))
+                @headerColumn(i18n.T(ctx, "info.container"))
+                @headerColumn(i18n.T(ctx, "info.videoCodec"))
+                @headerColumn(i18n.T(ctx, "info.audioCodec"))
+                @headerColumn(i18n.T(ctx, "info.fileSize"))
+                @headerColumn(i18n.T(ctx, "info.fps"))
+                @headerColumn(i18n.T(ctx, "info.tbr"))
+                @headerColumn(i18n.T(ctx, "info.vbr"))
+                @headerColumn(i18n.T(ctx, "info.abr"))
+                @headerColumn("")
+            }
+        }
+        @tableBody() {
+            { children... }
+        }
+    </div>
+}
+
+templ tableHeader() {
+    <div
+        x-ref="tableHeader"
+        @scroll="onHeaderScroll()"
+        class="overflow-x-auto overscroll-x-none sticky top-[54px] sm:top-[64px] xl:top-[69px] z-20"
+    >
+        <div class="w-[1520px]">
+        	<div class="
+        			bg-white dark:bg-background-dark
+        			border-t border-secondary dark:border-secondary-dark
+        			w-full
+        	">
+        		{ children... }
+        	</div>
+        </div>
+    </div>
+}
+
+templ formatRow() {
+    <div class="
+    	grid grid-flow-col grid-cols-[repeat(13,_minmax(0,_1fr))] p-3 md:p-4 gap-1
+    	border-b border-secondary dark:border-secondary-dark
+    ">
+    	{ children... }
+    </div>
+}
+
+templ headerColumn(value string) {
+    <div class="font-bold flex items-center">
+        { value }
+    </div>
+}
+
+templ tableBody() {
+    <div
+        x-ref="tableBody"
+        @scroll="onBodyScroll"
+        class="overflow-x-auto overscroll-x-none"
+    >
+    	<div class="w-[1520px]">
+    		{ children... }
+    	</div>
+    </div>
+}
+
+templ extensionBadge(value string) {
+    <div
+    	class="bg-primary text-white w-fit px-1 py-0.5 font-bold rounded-md text-sm h-fit"
+    >
+    	{ value }
+    </div>
+}
+
+templ fileSizeBadge(value string) {
+    <div
+    	class="font-mono bg-secondary dark:bg-secondary-dark px-2 py-1 rounded-md w-fit"
+    >
+    	{ value }
+    </div>
+}
+
+templ downloadButton(formatId string) {
+    <button
+        hx-get={fmt.Sprintf("/format-download/%s", formatId)}
+        @click="toggleLoading()"
+        class="
+        	w-fit px-3 py-2 font-bold border rounded-xl
+        	bg-white dark:bg-secondary-dark
+        	text-text dark:text-text-dark
+        	border-secondary dark:border-none
+        	md:hover:bg-primary md:dark:hover:bg-primary-dark
+        	active:hover:bg-primary active:dark:hover:bg-primary-dark
+        	md:hover:text-white active:hover:text-white
+        	disabled:cursor-wait
+        	disabled:hover:bg-white dark:disabled:hover:bg-secondary-dark
+        	disabled:hover:text-text dark:disabled:hover:text-text-dark
+        "
+        :disabled="loading"
+    >
+    	<div class="flex items-center space-x-2 w-fit mx-auto">
+    		<span>{ i18n.T(ctx, "info.download") }</span>
+    		@components.Spinner("h-4 w-4 fill-white text-neutral-600 my-htmx-indicator")
+    	</div>
+    </button>
+}

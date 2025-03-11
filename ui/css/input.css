@@ -16,3 +16,13 @@ button:focus {
 }
 
 [x-cloak] { display: none !important; }
+
+.my-htmx-indicator{
+	display:none;
+}
+.htmx-request .my-htmx-indicator{
+	display:inline;
+}
+.htmx-request.my-htmx-indicator{
+	display:inline;
+}

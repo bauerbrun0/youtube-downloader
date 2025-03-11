@@ -133,3 +133,14 @@ func (app *application) quickDownload(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("HX-Retarget", "#main")
 	app.render(r.Context(), w, r, errorPage.ErrorPage("TODO"))
 }
+
+func (app *application) formatDownload(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(2 * time.Second)
+	formatId := r.PathValue("formatId")
+	if formatId == "" {
+		w.Header().Set("HX-Retarget", "#main")
+		app.render(r.Context(), w, r, errorPage.ErrorPage("something went wrong somehow"))
+	}
+	w.Header().Set("HX-Retarget", "#main")
+	app.render(r.Context(), w, r, errorPage.ErrorPage(fmt.Sprintf("TODO: format id is %s", formatId)))
+}

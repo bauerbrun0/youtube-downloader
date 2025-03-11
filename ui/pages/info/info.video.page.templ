@@ -5,10 +5,14 @@ import (
 	"golang.org/x/text/message"
 	"fmt"
 	"strings"
+	"strconv"
+    "math"
 	"github.com/invopop/ctxi18n/i18n"
+    "github.com/dustin/go-humanize"
 
 	"github.com/bauerbrun0/youtube-downloader/internal/ytdlp"
     "github.com/bauerbrun0/youtube-downloader/internal/appctx"
+	"sort"
 )
 
 func formatDuration(seconds int, ctx context.Context) string {
@@ -50,6 +54,26 @@ func getDetails(ctx context.Context, video ytdlp.VideoInfo) string {
     return details
 }
 
+func getRoundedFPS(fps float64) int64 {
+    f := math.Floor(fps)
+    if f >= float64(math.MaxInt64) {
+        return math.MaxInt64
+    }
+
+    if f <= float64(math.MinInt64) {
+        return math.MinInt64
+    }
+    return int64(f)
+}
+
+func getOrderedFormats(formats []ytdlp.Format) (ret []ytdlp.Format) {
+    sort.Slice(formats, func(i, j int) bool {
+            return formats[i].Width > formats[j].Width
+    })
+
+    return formats
+}
+
 templ VideoInfoPage(video ytdlp.VideoInfo) {
     <div class="w-full animate-fade" x-data="{
         loading: false,
@@ -61,12 +85,61 @@ templ VideoInfoPage(video ytdlp.VideoInfo) {
             <h2 class="text-3xl md:text-2xl font-bold my-4">
                 { i18n.T(ctx, "info.quick_download_title") }
             </h2>
+
             <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
                 @QuickDownloadForm(QuickDownloadFormData{"audio_and_video", "none", "best", "best", video.Url})
                 @QuickDownloadForm(QuickDownloadFormData{"audio_and_video", "mp4", "best", "best", video.Url})
                 @QuickDownloadForm(QuickDownloadFormData{"audio", "none", "best", "", video.Url})
                 @QuickDownloadForm(QuickDownloadFormData{"audio", "mp3", "best", "", video.Url})
             </div>
+
+             <h2 class="text-3xl md:text-2xl font-bold my-4">
+                { i18n.T(ctx, "info.all_formats_title") }
+             </h2>
+
+             @videoFormatsTable() {
+                for _, format := range getOrderedFormats(video.Formats) {
+                    @formatRow() {
+                        <div class="font-bold">{ format.FormatID }</div>
+                        <div>{ format.Resolution }</div>
+                        <div>{ format.FormatNote }</div>
+                        <div>
+                            @extensionBadge(format.Extension)
+                        </div>
+
+                        <div>{ format.Container }</div>
+
+                        if format.VideoCodec != "none" {
+                            <div>{ format.VideoCodec }</div>
+                        } else {
+                            <div></div>
+                        }
+                        if format.AudioCodec != "none" {
+                            <div>{ format.AudioCodec }</div>
+                        } else {
+                            <div></div>
+                        }
+
+                        if format.FileSize != 0 {
+                            <div>
+                                @fileSizeBadge(humanize.Bytes(uint64(format.FileSize    )))
+                            </div>
+                        } else {
+                            <div></div>
+                        }
+
+                        if getRoundedFPS(format.FPS) != 0 {
+                            <div>{ strconv.FormatInt(getRoundedFPS(format.FPS), 10) }</div>
+                        } else {
+                            <div></div>
+                        }
+                        <div>{ strconv.FormatFloat(format.TBR, 'f', -1, 64) }</div>
+                        <div>{ strconv.FormatFloat(format.VBR, 'f', -1, 64) }</div>
+                        <div>{ strconv.FormatFloat(format.ABR, 'f', -1, 64) }</div>
+                        <div>@downloadButton(format.FormatID)</div>
+                    }
+                }
+             }
         </div>
     </div>
 }

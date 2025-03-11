@@ -23,17 +23,17 @@ type BaseInfo struct {
 }
 
 type Format struct {
-	FormatID   string  `json:"formatId"`
+	FormatID   string  `json:"format_id"`
 	Format     string  `json:"format"`
-	FormatNote string  `json:"formatNote"`
-	FileSize   float64 `json:"fileSize"`
+	FormatNote string  `json:"format_note"`
+	FileSize   int64   `json:"filesize"`
 	FPS        float64 `json:"fps"`
 	Resolution string  `json:"resolution"`
 	TBR        float64 `json:"tbr"`
 	VBR        float64 `json:"vbr"`
-	Extension  string  `json:"extension"`
-	VideoCodec string  `json:"videoCodec"`
-	AudioCodec string  `json:"audioCodec"`
+	Extension  string  `json:"ext"`
+	VideoCodec string  `json:"vcodec"`
+	AudioCodec string  `json:"acodec"`
 	ABR        float64 `json:"abr"`
 	Container  string  `json:"container"`
 	Width      float64 `json:"width"`
